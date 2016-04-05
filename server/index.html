@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #map {
+                 /*position:absolute;*/
+                /* top:0;
+                 left:0;*/
+                height: 100%;
+            }
+
+            #images {
+                /*position: relative;*/
+                z-index: 100;
+                position:absolute;
+                  top:10px;  
+                  left: 10px;  
+                  width: 20%;
+            }
+        </style>
+    </head>
+<body>
+    <div id="images"></div>
+    
+    <div id="map"></div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/accessKey.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsbDZ3lAcNuR5wKp3xSaDa_UIbvyqdyKo&signed_in=true" async defer></script>
+
+</body>
+</html>
