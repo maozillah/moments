@@ -30,7 +30,6 @@
             <p class="event listening">Connecting to Device</p>
             <p class="event received">Device is Ready</p>
         </div>-->
-        <a href="page2.html" id="dicks">DICKS</a>
         <div id="map" ></div>
     </div>
 
@@ -39,9 +38,16 @@
 
       <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="js/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKnnXmVq11AUoi4N3Wzny8phbRFa5Hlqw&callback=initMap" async defer></script>
+    <script type="text/javascript" src="js/accessKey.js"></script>
 
     <script type="text/javascript">
+
+        // Load Google Maps using variable access key
+          var script=document.createElement("script");
+          script.type="text/javascript";
+          script.src="https://maps.googleapis.com/maps/api/js?key="+ accessKey + "&callback=initMap";
+          script.async = true;
+          document.head.appendChild(script);
 
           function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
