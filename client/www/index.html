@@ -31,6 +31,7 @@
             <p class="event received">Device is Ready</p>
         </div>-->
         <div id="map" ></div>
+        <div id="cover"></div>
     </div>
 
 
@@ -44,6 +45,7 @@
         var locationMarker;
         var map;
         var infoWindow;
+        var pos;
 
 
         // Load Google Maps using variable access key
@@ -64,7 +66,7 @@
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
+                pos = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
@@ -85,13 +87,15 @@
                    strokeColor : '#000',
                    strokeWeight : 1,
                    scale: 5,
-                   anchor: new google.maps.Point(0,2)
+                   anchor: new google.maps.Point(0,2),
+                   zIndex: 1000
                  },
                  draggable: false,
                  map: map
                });
 
                enableOrientationArrow();
+               placeImages();
 
               }, function() {
               //  infoWindow = new google.maps.InfoWindow({map: map});
@@ -138,7 +142,7 @@
 
           // Check location every half a second
           window.setInterval(function(){
-            if (locationMarker != null) updateLocation();
+            //if (locationMarker != null) updateLocation();
           }, 100);
 
           // Update the location marker
@@ -147,20 +151,83 @@
             if (navigator.geolocation) {
               // Get current location
               navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
+                pos = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
                 // Position the marker
                 locationMarker.setPosition(pos);
+                map.setCenter(pos);
 
               }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
+                locationMarker.setPosition(pos);
               });
             } else {
               // Browser doesn't support Geolocation
               handleLocationError(false, infoWindow, map.getCenter());
+              locationMarker.setPosition(pos);
             }
+          }
+
+
+
+          // Put image locations
+          function placeImages(){
+            var pos1  = {
+              lat: 43.463860,
+              lng: -79.710113
+            };
+
+            var pos2  = {
+              lat: 43.464543,
+              lng: -79.708721
+            };
+
+            pictureMarker= new google.maps.Marker({
+             position: pos1,
+             icon: {
+               path: google.maps.SymbolPath.CIRCLE,
+               fillColor: 'red',
+               fillOpacity: 1,
+               strokeColor : '#000',
+               strokeWeight : 1,
+               scale: 5,
+               zIndex: 1000,
+               radius:5
+             },
+             draggable: false,
+             map: map
+           });
+
+
+           pictureMarker2= new google.maps.Marker({
+            position: pos2,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: 'red',
+              fillOpacity: 1,
+              strokeColor : '#000',
+              strokeWeight : 1,
+              scale: 5,
+              zIndex: 1000
+            },
+            draggable: false,
+            map: map
+          });
+
+          }
+
+          // Takes an object with coordinates for each param and calculates distance between
+          function calcDistance(start, end){
+            var x1 = start[lat];
+            var x2 = end[lat];
+            var y1 = start[lng];
+            var y2 = end[lng];
+
+            var distance = Math.sqrt(Math.pow(x2 -x1,2) + Math.pow(y2 - y1,2));
+
+            return distance;
           }
 
 

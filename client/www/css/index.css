@@ -36,6 +36,16 @@ body {
   width:100%;
 }
 
+#cover {
+  position:absolute;
+  top:0px;
+  left:0px;
+  z-index:1001;
+  height: 100%;
+  width:100%;
+  background-color: rgba(0, 0, 0, 0);
+}
+
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
     .app {                                /* offset horizontal: half of image width and text area width */
