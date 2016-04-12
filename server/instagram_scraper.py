@@ -34,7 +34,7 @@ def igLocSearch(clickPos):
             # calculate each locID's distance to clickPos and add to store it
             locIDs[locID] = math.sqrt(math.pow(lat-float(currentLat),2) + math.pow(lng-float(currentLong),2));
     else:
-        print("no locations nearby")
+        RESULTS['moment'].append({'no Instagram locations nearby'})
 
     closestLocID = min(locIDs, key=locIDs.get)
     getLocPhotos(closestLocID)
@@ -59,6 +59,8 @@ def getLocPhotos(LocID):
             'lat' : photo['location']['latitude'],
             'long' : photo['location']['longitude']
         })
+    else: 
+        RESULTS['moment'].append({'no instagram images'})
 
 def main():
     # test with sheridan college location
