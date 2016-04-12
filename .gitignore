@@ -1,3 +1,4 @@
 server/static/js/accessKey.js
 client/js/accessKey.js
 api_keys.py
+*.pyc

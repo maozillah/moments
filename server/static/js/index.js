@@ -28,6 +28,8 @@ function showPosition(position) {
         lng: position.coords.longitude
     };
 
+    // d=sqr((x2-x1)^2 + (y2-y1)^2))
+
     // if (Math.sqrt(Math.pow(fenceX - position.coords.latitude, 2) + Math.pow(fenceY - position.coords.longitude, 2)) <= 0.001) {
     //     prox = true;
     //     // bluetoothSerial.write("a");
@@ -108,7 +110,6 @@ function igLocSearch(clickPos) {
         }.bind(this)
     });
 }
-
 
 function getLocPhotos(locData) {
     // get media
