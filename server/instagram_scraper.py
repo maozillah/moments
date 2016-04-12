@@ -39,7 +39,7 @@ def igLocSearch(clickPos):
     closestLocID = min(locIDs, key=locIDs.get)
     getLocPhotos(closestLocID)
 
-    print(RESULTS)
+    return RESULTS
 
 def getLocPhotos(LocID):
     igLocApi = "https://api.instagram.com/v1/locations/";

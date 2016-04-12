@@ -27,16 +27,6 @@ function showPosition(position) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
     };
-
-    // d=sqr((x2-x1)^2 + (y2-y1)^2))
-
-    // if (Math.sqrt(Math.pow(fenceX - position.coords.latitude, 2) + Math.pow(fenceY - position.coords.longitude, 2)) <= 0.001) {
-    //     prox = true;
-    //     // bluetoothSerial.write("a");
-    // } else {
-    //     prox = false;
-    //     // bluetoothSerial.write("b");
-    // }
 }
 
 function initMap(latitude, longitude) {
@@ -86,60 +76,6 @@ function submitCurrentLoc(clickPos) {
           console.error("posting to server", status, err.toString());
         }.bind(this)
       });
-}
-
-// server side code
-
-function igLocSearch(clickPos) {
-    var igApi = "https://api.instagram.com/v1/locations/search?access_token=" + igKey;
-    var igLat = "&lat=" + clickPos.lat;
-    var igLng = "&lng=" + clickPos.lng;
-
-    //TODO: get all location ids?
-    $.ajax({
-        url:  igApi + igLat + igLng,
-        dataType: 'jsonp',
-        cache: false,
-        success: function(data) {
-           igLocIdData = data.data;
-            console.log(igLocIdData);
-            getLocPhotos(igLocIdData);
-        }.bind(this),
-        error: function(xhr, status, err) {
-            console.error("retrieving location id", status, err.toString());
-        }.bind(this)
-    });
-}
-
-function getLocPhotos(locData) {
-    // get media
-    //TODO: better way than just getting the first location id, if no images exist, try next location id
-    var igLocApi = "https://api.instagram.com/v1/locations/";
-    var locId = locData[0].id + "/media/recent?access_token=" + igKey; 
-
-    $.ajax({
-        url:  igLocApi + locId,
-        dataType: 'jsonp',
-        cache: false,
-        success: function(data) {
-            igLocPhotos = data.data;
-            console.log(data);
-            console.log(igLocPhotos);
-
-            $( "#images" ).empty();
-
-            for (i = 0; i < igLocPhotos.length; i++) { 
-                $( "#images" ).append( "<img src=\"" + igLocPhotos[i].images.thumbnail.url+"\">" + "<p>"+igLocPhotos[i].caption.text+"<p/>" + "<p>"+igLocPhotos[i].location.latitude+igLocPhotos[i].location.longitude+"<p/>");
-
-                // console.log(igLocPhotos[i].images.thumbnail.url);
-                //  console.log(igLocPhotos[i].caption.text);
-            }
-
-        }.bind(this),
-        error: function(xhr, status, err) {
-            console.error("retrieving location id", status, err.toString());
-        }.bind(this)
-    });
 }
 
 // initiate google maps

@@ -9,9 +9,9 @@ app = Flask(__name__)
 def get_moment():
 	if request.method == 'POST':
 		clickPos = request.get_data()
-		print("posted to server " + clickPos)
-		
-		return igLocSearch(clickPos)
+		# print("posted to server " + clickPos)
+
+		return jsonify(igLocSearch(clickPos))
 
 @app.route("/")
 def index():
