@@ -1,2 +1,3 @@
-server/js/accessKey.js
+server/static/js/accessKey.js
 client/js/accessKey.js
+api_keys.py

@@ -1,7 +1,6 @@
 var prox = false;
 var fenceX = 43.470151;
 var fenceY = -79.701940; //hardcoded
-var stop = false;
 var pos = {
     lat: 0,
     lng: 0
@@ -29,13 +28,13 @@ function showPosition(position) {
         lng: position.coords.longitude
     };
 
-    if (Math.sqrt(Math.pow(fenceX - position.coords.latitude, 2) + Math.pow(fenceY - position.coords.longitude, 2)) <= 0.001) {
-        prox = true;
-        // bluetoothSerial.write("a");
-    } else {
-        prox = false;
-        // bluetoothSerial.write("b");
-    }
+    // if (Math.sqrt(Math.pow(fenceX - position.coords.latitude, 2) + Math.pow(fenceY - position.coords.longitude, 2)) <= 0.001) {
+    //     prox = true;
+    //     // bluetoothSerial.write("a");
+    // } else {
+    //     prox = false;
+    //     // bluetoothSerial.write("b");
+    // }
 }
 
 function initMap(latitude, longitude) {
@@ -57,7 +56,7 @@ function initMap(latitude, longitude) {
             lng: event.latLng.lng()
         }
 
-        igLocSearch(clickPos);
+        submitCurrentLoc(clickPos);
 
         var marker = new google.maps.Marker({
             position: clickPos,
@@ -70,6 +69,22 @@ function initMap(latitude, longitude) {
     });
 }
 
+function submitCurrentLoc(clickPos) { 
+    var coordinates = clickPos.lat + "," + clickPos.lng;
+
+    $.ajax({
+        url: "/moment",
+        dataType: 'json',
+        type: 'POST',
+        data: coordinates,
+        success: function(data) {
+          console.log(data);
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error("posting to server", status, err.toString());
+        }.bind(this)
+      });
+}
 
 // server side code
 
