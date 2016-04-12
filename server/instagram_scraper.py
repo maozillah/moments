@@ -3,8 +3,10 @@ import requests
 import datetime
 import math
 from api_keys import igKey
+RESULTS = {'moment': []}
 
 def igLocSearch(clickPos):
+
     igApi = "https://api.instagram.com/v1/locations/search?access_token=" + igKey;
 
     # lat long from front end
@@ -37,13 +39,30 @@ def igLocSearch(clickPos):
     closestLocID = min(locIDs, key=locIDs.get)
     getLocPhotos(closestLocID)
 
+    print(RESULTS)
+
 def getLocPhotos(LocID):
     igLocApi = "https://api.instagram.com/v1/locations/";
-    LocIDQuery = LocID + "/media/recent?access_token=" + igKey
+    LocIDQuery = igLocApi + LocID + "/media/recent?access_token=" + igKey
+
+    igR = requests.get(LocIDQuery)
+    igPhotos = igR.json()
+
+    if igPhotos['meta']['code'] == 200:
+        photo = igPhotos['data'][0]
+
+        RESULTS['moment'].append({
+            'img_url' : photo['images']['standard_resolution']['url'],
+            'caption' : photo['caption']['text'],
+            'tags' : photo['tags'],
+            'url' : photo['link'],
+            'lat' : photo['location']['latitude'],
+            'long' : photo['location']['longitude']
+        })
 
 def main():
+    # test with sheridan college location
     igLocSearch("43.46858730253996,-79.69988822937012")
-
 
 if __name__ == "__main__":
     main()

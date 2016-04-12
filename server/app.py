@@ -10,7 +10,8 @@ def get_moment():
 	if request.method == 'POST':
 		clickPos = request.get_data()
 		print("posted to server " + clickPos)
-		igLocSearch(clickPos)
+		
+		return igLocSearch(clickPos)
 
 @app.route("/")
 def index():
