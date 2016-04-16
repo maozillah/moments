@@ -32,6 +32,7 @@
         </div>-->
         <div id="map" ></div>
         <div id="cover"></div>
+        <img id="picture" src = "img/darth-vader.jpg">
     </div>
 
 
@@ -46,7 +47,8 @@
         var map;
         var infoWindow;
         var pos;
-        var startLocation
+        var startLocation;
+        var target; //Current image that user is searching for
 
 
         // Load Google Maps using variable access key
@@ -166,8 +168,14 @@
                   pos = newPos;
                   locationMarker.setPosition(pos);
                   map.setCenter(pos);
+
+                  // Reveal image if player is within range of current target
+                  if(calcDistance(pos,target) < 0.00045){
+                    revealImage();
+                  }
+
                 }
-                console.log(pos.lat + " " + pos.lng);
+                //console.log(pos.lat + " " + pos.lng);
 
               }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
@@ -185,8 +193,8 @@
           // Put image locations
           function placeImages(){
             var pos1  = {
-              lat: 43.463860,
-              lng: -79.710113
+              lat: 43.462439,
+              lng: -79.708754
             };
 
             var pos2  = {
@@ -208,7 +216,7 @@
              },
              draggable: false,
              map: map
-           });
+            });
 
 
            pictureMarker2= new google.maps.Marker({
@@ -224,14 +232,21 @@
             },
             draggable: false,
             map: map
-          });
+            });
 
-          var tempArray = [pos1,pos2];
-          console.log(closestPoint(tempArray));
+            var tempArray = [pos1,pos2];
 
+            // Set the target to the closest picture
+            target = closestPoint(tempArray);
           }
 
-          //Find the closest picture to the user
+          function revealImage(){
+            console.log("called");
+            var image = document.getElementById('picture');
+            image.style.display = "block";
+          }
+
+          // Find the closest picture to the user
           function closestPoint(positions){
             var shortestDistance =1000000;
             var closestPos;
@@ -261,7 +276,7 @@
           }
 
 
-        //Initialize app
+        // Initialize app
         app.initialize();
     </script>
 </body>
