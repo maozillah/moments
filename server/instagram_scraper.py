@@ -7,7 +7,10 @@ RESULTS = {'moment': []}
 
 def igLocSearch(clickPos):
 
-    igApi = "https://api.instagram.com/v1/locations/search?access_token=" + igKey;
+    # clear data
+    RESULTS["moment"] = []
+
+    igApi = "https://api.instagram.com/v1/locations/search?access_token=" + igKey
 
     # lat long from front end
     coordinates = clickPos.split(',')
@@ -23,7 +26,7 @@ def igLocSearch(clickPos):
 
     locIDs = {}
 
-    if data['meta']['code'] == 200:
+    if data['meta']['code'] == 200 and data['data']:
         
         #check for closest location id
         for location in data["data"]:
@@ -32,23 +35,25 @@ def igLocSearch(clickPos):
             locID = location['id']
 
             # calculate each locID's distance to clickPos and add to store it
-            locIDs[locID] = math.sqrt(math.pow(lat-float(currentLat),2) + math.pow(lng-float(currentLong),2));
-    else:
-        RESULTS['moment'].append({'no Instagram locations nearby'})
+            locIDs[locID] = math.sqrt(math.pow(lat-float(currentLat),2) + math.pow(lng-float(currentLong),2))
 
-    closestLocID = min(locIDs, key=locIDs.get)
-    getLocPhotos(closestLocID)
+        closestLocID = min(locIDs, key=locIDs.get)
+        getLocPhotos(closestLocID)
+    else:
+        print('no Instagram locations nearby')
+        RESULTS['moment'].append({'error' :'no Instagram locations nearby'})
 
     return RESULTS
 
 def getLocPhotos(LocID):
-    igLocApi = "https://api.instagram.com/v1/locations/";
+    #TO DO Error handling
+    igLocApi = "https://api.instagram.com/v1/locations/"
     LocIDQuery = igLocApi + LocID + "/media/recent?access_token=" + igKey
 
     igR = requests.get(LocIDQuery)
     igPhotos = igR.json()
 
-    if igPhotos['meta']['code'] == 200:
+    if igPhotos['meta']['code'] == 200 and igPhotos['data']:
         photo = igPhotos['data'][0]
 
         RESULTS['moment'].append({
@@ -60,11 +65,15 @@ def getLocPhotos(LocID):
             'long' : photo['location']['longitude']
         })
     else: 
-        RESULTS['moment'].append({'no instagram images'})
+        print('no instagram images nearby')
+        RESULTS['moment'].append({'error' :'no instagram images nearby'})
 
-def main():
+# def main():
     # test with sheridan college location
-    igLocSearch("43.46858730253996,-79.69988822937012")
+    # igLocSearch("43.46858730253996,-79.69988822937012")
+
+    #search no locations nearby
+    # igLocSearch("20.3034175184893,-178.2421875")
 
 if __name__ == "__main__":
     main()

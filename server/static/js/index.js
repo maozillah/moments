@@ -63,6 +63,7 @@ function initMap(latitude, longitude) {
 
 function submitCurrentLoc(clickPos) { 
     var coordinates = clickPos.lat + "," + clickPos.lng;
+    console.log(coordinates);
 
     $.ajax({
         url: "/moment",
