@@ -60,9 +60,12 @@ def getLocPhotos(LocID):
         # select random photo
         photo = igPhotos['data'][randint(0,totalImgs)]
 
+        # check if photo has already used
         if photo["id"] in open('usedImgs.txt').read():
             print("already used this image")
             igPhotos['data'][randint(0,totalImgs)]
+
+        #TODO: error handling if all images have been used
 
         RESULTS['moment'].append({
             'img_url' : photo['images']['standard_resolution']['url'],
@@ -73,6 +76,7 @@ def getLocPhotos(LocID):
             'long' : photo['location']['longitude']
         })
 
+        # add new image id to text file
         with open('usedImgs.txt', 'a') as file:
             file.write(photo["id"]+",")
     else: 
