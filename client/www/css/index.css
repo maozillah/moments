@@ -54,6 +54,22 @@ body {
   z-index: 20;
   display:none;
 }
+#hot-meter{
+  position:absolute;
+  height:30px;
+  width:100%;
+  z-index:30;
+  bottom:0px;
+  left:0px;
+  background:linear-gradient(to right,#66ccff, #ff0000);
+}
+
+#indicator{
+  position: absolute;
+  z-index:31;
+  bottom:20px;
+  left:0px;
+}
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {

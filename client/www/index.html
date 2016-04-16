@@ -33,6 +33,10 @@
         <div id="map" ></div>
         <div id="cover"></div>
         <img id="picture" src = "img/darth-vader.jpg">
+        <div id="hot-meter"></div>
+        <svg id="indicator" height="20" width="20">
+          <polygon points="0,0 20,0 10,20" style="fill:black;"/>
+        </svg>
     </div>
 
 
@@ -49,6 +53,7 @@
         var pos;
         var startLocation;
         var target; //Current image that user is searching for
+
 
 
         // Load Google Maps using variable access key
@@ -104,7 +109,7 @@
               }, function() {
               //  infoWindow = new google.maps.InfoWindow({map: map});
               //  handleLocationError(true, infoWindow, map.getCenter());
-              });
+            },{maximumAge:600000, timeout:5000,enableHighAccuracy: true});
             } else {
               // Browser doesn't support Geolocation
             //  infoWindow = new google.maps.InfoWindow({map: map});
@@ -137,7 +142,19 @@
                       else {
                           alpha = event.alpha;
                       }
+
                       var locationIcon = locationMarker['icon'];
+                      var indicator = document.getElementById("indicator");
+
+                      //measure difference in rotation;
+                      var targetAngle = calcAngle(pos,target);
+                      var difference = Math.abs(targetAngle - alpha);
+                      if (difference > 180) difference = 180 - (difference - 180);
+
+                      var width = screen.width-20;
+
+                      indicator.style.left = calcMap(difference,0,180,0,width);
+
                       locationIcon.rotation = 360 - alpha;
                       locationMarker.set('icon', locationIcon);
                   }, false);
@@ -169,6 +186,7 @@
                   locationMarker.setPosition(pos);
                   map.setCenter(pos);
 
+
                   // Reveal image if player is within range of current target
                   if(calcDistance(pos,target) < 0.00045){
                     revealImage();
@@ -180,7 +198,7 @@
               }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
                 locationMarker.setPosition(pos);
-              });
+              },{maximumAge:600000, timeout:5000,enableHighAccuracy: true});
             } else {
               // Browser doesn't support Geolocation
               handleLocationError(false, infoWindow, map.getCenter());
@@ -241,7 +259,6 @@
           }
 
           function revealImage(){
-            console.log("called");
             var image = document.getElementById('picture');
             image.style.display = "block";
           }
@@ -274,6 +291,24 @@
             var distance = Math.sqrt(Math.pow(x2 -x1,2) + Math.pow(y2 - y1,2));
             return distance;
           }
+
+          // Calculate an angle from two points
+          function calcAngle(start, end){
+
+            var x1 = start.lat;
+            var x2 = end.lat;
+            var y1 = start.lng;
+            var y2 = end.lng;
+
+            var angle = Math.atan2(y2 - y1, x2- x1) * 180 / Math.PI;
+            return angle;
+          }
+
+          //Map one range of numbers onto another
+          function calcMap(x,a1,b1,a2,b2){
+            return (x-a1)/(b1-a1) * (b2-a2) + a2;
+          }
+
 
 
         // Initialize app
