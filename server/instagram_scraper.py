@@ -1,15 +1,11 @@
 import json
 import requests
-import datetime
 import math
+from random import randint
 from api_keys import igKey
 RESULTS = {'moment': []}
 
 def igLocSearch(clickPos):
-
-    # clear data
-    RESULTS["moment"] = []
-
     igApi = "https://api.instagram.com/v1/locations/search?access_token=" + igKey
 
     # lat long from front end
@@ -21,10 +17,14 @@ def igLocSearch(clickPos):
 
     igLocQuery = igApi + igLat + igLng
 
+    # keep track of location id for distance calculations
+    locIDs = {}
+
+    # clear data
+    RESULTS["moment"] = []
+
     r = requests.get(igLocQuery)
     data = r.json()
-
-    locIDs = {}
 
     if data['meta']['code'] == 200 and data['data']:
         
@@ -54,7 +54,15 @@ def getLocPhotos(LocID):
     igPhotos = igR.json()
 
     if igPhotos['meta']['code'] == 200 and igPhotos['data']:
-        photo = igPhotos['data'][0]
+        
+        totalImgs = len(igPhotos['data'])
+
+        # select random photo
+        photo = igPhotos['data'][randint(0,totalImgs)]
+
+        if photo["id"] in open('usedImgs.txt').read():
+            print("already used this image")
+            igPhotos['data'][randint(0,totalImgs)]
 
         RESULTS['moment'].append({
             'img_url' : photo['images']['standard_resolution']['url'],
@@ -64,13 +72,17 @@ def getLocPhotos(LocID):
             'lat' : photo['location']['latitude'],
             'long' : photo['location']['longitude']
         })
+
+        with open('usedImgs.txt', 'a') as file:
+            file.write(photo["id"]+",")
     else: 
         print('no instagram images nearby')
         RESULTS['moment'].append({'error' :'no instagram images nearby'})
 
-# def main():
+
+def main():
     # test with sheridan college location
-    # igLocSearch("43.46858730253996,-79.69988822937012")
+    igLocSearch("43.46858730253996,-79.69988822937012")
 
     #search no locations nearby
     # igLocSearch("20.3034175184893,-178.2421875")
