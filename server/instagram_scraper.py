@@ -1,6 +1,7 @@
 import json
 import requests
 import math
+
 from random import randint
 from api_keys import igKey
 RESULTS = {'moment': []}
@@ -46,9 +47,11 @@ def igLocSearch(clickPos):
     return RESULTS
 
 def getLocPhotos(LocID):
-    #TO DO Error handling
     igLocApi = "https://api.instagram.com/v1/locations/"
     LocIDQuery = igLocApi + LocID + "/media/recent?access_token=" + igKey
+
+    # global / local
+    # numImgsUsed = 0
 
     igR = requests.get(LocIDQuery)
     igPhotos = igR.json()
@@ -56,14 +59,22 @@ def getLocPhotos(LocID):
     if igPhotos['meta']['code'] == 200 and igPhotos['data']:
         
         totalImgs = len(igPhotos['data'])
+        # for photo in igPhotos['data']:
+        #     print(photo['id'])
 
         # select random photo
         photo = igPhotos['data'][randint(0,totalImgs)]
+        # print("total images",totalImgs)
+        # print("used images",numImgsUsed)
 
-        # check if photo has already used
-        if photo["id"] in open('usedImgs.txt').read():
-            print("already used this image")
-            igPhotos['data'][randint(0,totalImgs)]
+        # # check if photo has already used
+        # if photo["id"] in open('usedImgs.txt').read():
+        #     if totalImgs == numImgsUsed:
+        #         print("images all used")
+        #     else:
+        #         print("already used this image")
+        #         numImgsUsed += 1
+        #         igPhotos['data'][randint(0,totalImgs)]
 
         #TODO: error handling if all images have been used
 
@@ -77,18 +88,18 @@ def getLocPhotos(LocID):
         })
 
         # add new image id to text file
-        with open('usedImgs.txt', 'a') as file:
-            file.write(photo["id"]+",")
+        # with open('usedImgs.txt', 'a') as file:
+        #     file.write(photo["id"]+",")
     else: 
         print('no instagram images nearby')
         RESULTS['moment'].append({'error' :'no instagram images nearby'})
 
 
-def main():
+# def main():
     # test with sheridan college location
-    igLocSearch("43.46858730253996,-79.69988822937012")
+    # igLocSearch("43.46834202822045,-79.69888508319855")
 
-    #search no locations nearby
+    # search no locations nearby
     # igLocSearch("20.3034175184893,-178.2421875")
 
 if __name__ == "__main__":
