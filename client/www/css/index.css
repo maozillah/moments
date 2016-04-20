@@ -148,14 +148,16 @@ nav{
   z-index:30;
   bottom:0px;
   left:0px;
-  background:linear-gradient(to right,#66ccff, #ff0000);
+  background:linear-gradient(to right,#50C0E1, #E95B47);
 }
 
 #indicator{
   position: absolute;
   z-index:31;
-  bottom:20px;
-  left:0px;
+  bottom:-5px;
+  left:-20px;
+  height:55px;
+  width:55px;
 }
 
 /* Landscape layout (with min-width) */

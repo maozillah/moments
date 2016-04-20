@@ -75,9 +75,8 @@
         </div>
 
         <div id="hot-meter"></div>
-        <svg id="indicator" height="20" width="20">
-          <polygon points="0,0 20,0 10,20" style="fill:black;"/>
-        </svg>
+        <img src="img/magglass.svg" id="indicator">
+
     </div>
 
 
@@ -204,7 +203,7 @@
 
                       var width = screen.width-20;
 
-                      indicator.style.left = calcMap(difference,0,180,0,width);
+                      indicator.style.left = (calcMap(difference,0,180,0,width)-20) + "px";
 
                       locationIcon.rotation = 360 - alpha;
                       locationMarker.set('icon', locationIcon);
