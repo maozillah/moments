@@ -48,6 +48,13 @@
 }
 
 
+@font-face {
+    font-family: 'latolightitalic';
+    src: url('Lato-LightItalic.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 
 @font-face {
