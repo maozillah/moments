@@ -32,7 +32,10 @@
             <p class="event listening">Connecting to Device</p>
             <p class="event received">Device is Ready</p>
         </div>-->
-        <nav></nav>
+        <nav>
+          <img id="nav-logo" src="img/logo.svg"></img>
+          <img id="info-icon" src="img/icon.svg"></img>
+        </nav>
 
         <div id="map" ></div>
         <div id="cover"></div>
@@ -41,17 +44,34 @@
 
 
         <div id="modal">
+          <div id="description">Welcome to Moments, where you can explore recent Instagram photos in places near you.</div>
           <h2> Getting Started </h2>
-          <div id="description">Welcome to Moments, where you can explore recent Instagram photos in places near you</div>
+
+
+
           <div class="step">
-            Enable GPS on your phone
+            <img src="img/gps.svg" />
+            <div class="text">
+              Enable GPS on your phone.
+            </div>
           </div>
+
+
           <div class="step">
+            <img src="img/bar.svg" />
+            <div class="text">
             Follow the hot &amp cold bar to locate a memory
+            </div>
           </div>
+
           <div class="step">
-            Have fun
+            <img src="img/smiley.svg" />
+            <div class="text" >
+            Have fun!
+            </div>
           </div>
+
+          <div id="go-button">GO!</div>
         </div>
 
         <div id="hot-meter"></div>
@@ -76,7 +96,16 @@
         var startLocation;
         var target; //Current image that user is searching for
 
+        //Buttons
+        var goButton = document.getElementById('go-button');
+        goButton.addEventListener("click", function(){
+          document.getElementById('modal').style.display = "none";
+        });
 
+        var infoButton = document.getElementById('info-icon');
+        infoButton.addEventListener("click", function(){
+          document.getElementById('modal').style.display = "block";
+        });
 
         // Load Google Maps using variable access key
           var script=document.createElement("script");
