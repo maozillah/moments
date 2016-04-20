@@ -47,6 +47,31 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
+#modal h2{
+  font-family: 'rokkittregular';
+  font-size: 36px;
+  color:#CB2029;
+  padding-top:20px;
+}
+
+#modal{
+  text-align: center;
+  position:absolute;
+  top:0px;
+  left:0px;
+  z-index:35;
+  height:calc(100% - 50px);
+  width:100%;
+  margin-top:50px;
+  background:#FFF;
+  font-family: latolight;
+  border-radius: 5px;
+}
+
+#description{
+  margin:10px 20px;
+}
+
 #picture {
   position:absolute;
   top:10%;
