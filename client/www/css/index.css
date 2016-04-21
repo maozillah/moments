@@ -208,7 +208,7 @@ h3{
 }
 
 #hot-meter{
-  position:absolute;
+  position:fixed;
   height:30px;
   width:100%;
   z-index:30;
@@ -218,7 +218,7 @@ h3{
 }
 
 #indicator{
-  position: absolute;
+  position: fixed;
   z-index:31;
   bottom:-5px;
   left:-20px;
