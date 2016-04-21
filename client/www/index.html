@@ -49,7 +49,7 @@
                 <div id = "tags">
                   #vader #darklordofthesith #sinimonbun
                 </div>
-                <h3>
+                <h3 id = "user">
                   Darth Vader
                 </h3>
                 <div id = "description">
@@ -139,6 +139,14 @@
         //  document.getElementById('picture').style.display = "none";
           document.getElementById('picture').style.transform=  "rotateY(90deg)";
         });
+
+        // Remove transform when CSS transition finishes so fixed elements will work properly
+        var pictureModal = document.getElementById('picture');
+        pictureModal.addEventListener("transitionend", function(){
+          console.log( pictureModal.style.transform);
+          if (pictureModal.style.transform !="rotateY(90deg)") pictureModal.style.transform = "none";
+        }, false);
+
 
         // Load Google Maps using variable access key
           var script=document.createElement("script");
@@ -309,7 +317,7 @@
               lat: 43.464543,
               lng: -79.708721
             };
-
+            /*
             pictureMarker= new google.maps.Marker({
              position: pos1,
              icon: {
@@ -341,7 +349,7 @@
             draggable: false,
             map: map
             });
-
+            */
             var tempArray = [pos1,pos2];
 
             // Set the target to the closest picture
@@ -415,7 +423,7 @@
                     target.img = data["moment"][0]["img_url"];
                     target.caption = data["moment"][0]["caption"];
                     target.tags = data["moment"][0]["tags"];
-                    target.tags = data["moment"][0]["tags"];
+                    target.username = data["moment"][0]["username"];
 
                     document.getElementById('found-image').src = target.img;
 
@@ -426,11 +434,13 @@
                     }
                     document.getElementById('tags').innerHTML = tags;
 
-                    var caption = document.getElementById('description').innerHTML;
+                    var caption = target.caption;
                     if (caption != "no caption") document.getElementById('description').innerHTML = target.caption;
                     else document.getElementById('description').innerHTML = "";
 
-                    //revealImage();
+                    document.getElementById('user').innerHTML=target.username;
+
+                    revealImage();
                     console.log(data);
                   }.bind(this),
                   error: function(xhr, status, err) {
