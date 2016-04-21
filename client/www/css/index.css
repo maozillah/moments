@@ -19,17 +19,35 @@ body {
     height:100%;
 }
 
-#dicks{
+nav{
   z-index:1000;
-  position:absolute;
+  position:fixed;
   top:0px;
   left:0px;
-  background:#fff;
-  height:25px;
-  width:100px;
+  background:#E95B47;
+  height:50px;
+  width:100%;
   display:inline-block;
   text-align:center;
 }
+
+#info-icon{
+  height:35px;
+  width:35px;
+  position:absolute;
+  top:7px;
+  right:7px;
+}
+
+#nav-logo{
+  height:35px;
+  position: absolute;
+  left:15px;
+  top:10px;
+}
+
+
+
 
 #map {
   z-index:5
@@ -47,28 +65,165 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
-#picture {
-  position:absolute;
-  top:10%;
-  width:100%;
-  z-index: 20;
-  display:none;
+#modal h2{
+  font-family: 'rokkittregular';
+  font-size: 36px;
+  color:#CB2029;
+  padding:0px 0 30px 0;
 }
-#hot-meter{
+
+#modal{
+  text-align: center;
   position:absolute;
+  top:0px;
+  left:0px;
+  z-index:35;
+  height:calc(100% - 50px);
+  width:100%;
+  margin-top:50px;
+  background:#FFF;
+  font-family: latolightitalic;
+}
+
+.step{
+  width:250px;
+  height:50px;
+  margin:0 auto;
+  text-align: left;
+  margin-bottom:30px;
+
+  position:relative;
+}
+
+.step img {
+  width:50px;
+  height:50px;
+  position:relative;
+  display:inline-block;
+  padding-left: 20px;
+}
+
+.text{
+  font-family: latolight;
+  display:inline-block;
+  width:150px;
+  position:absolute;
+  top:10px;
+  left:90px;
+  font-size: 16px
+}
+
+#go-button{
+  color:#fff;
+  width:120px;
+
+  position:absolute;
+  margin:0 auto;
+  bottom:30px;
+  left:calc(50% - 60px);
+  padding: 10px 0 5px 0;
+  text-align: center;
+  font-family: rokkittregular;
+  font-size: 42px;
+  background:#E95B47;
+  border-radius: 5px;
+}
+
+#intro{
+  margin:10px 40px;
+  padding:10px 0 10px 0;
+}
+
+#picture {
+  height:calc(100% - 50px);
+  width:100%;
+  margin-top:50px;
+  z-index: 34;
+  display:block;
+  background-color: #fff;
+  position:absolute;
+  top:0;
+  overflow-x: hidden;
+}
+
+#found-image {
+  height:60%;
+  position: absolute;
+  top:0px;
+  left: -9999px;
+  right: -9999px;
+  margin: auto;/*
+  background:url("../img/darth-vader.jpg");
+  background-size:cover;*/
+}
+
+#picture-text{
+  height:40%;
+  padding:10px 20px 0 20px;
+  position: absolute;
+  top:60%;
+}
+
+#tags{
+  color:#666;
+  font-family:"latolightitalic";
+  margin:5px 0 10px 0;
+  font-size:14px;
+}
+
+h3{
+  font-family:"latoregular";
+  padding-bottom: 10px;
+}
+
+#description{
+  font-family:"latolight";
+  padding-bottom:100px;
+}
+
+#gradient{
+  position:fixed;
+  width:100%;
+  height:125px;
+  bottom:0px;
+  background:linear-gradient(rgba(255,255,255,0),
+  rgba(255,255,255,1),
+  rgba(255,255,255,1),
+  rgba(255,255,255,1));
+}
+
+#next-memory{
+  color:#fff;
+  position:fixed;
+  width:250px;
+  bottom:15px;
+  display:inline-block;
+  left: calc(50% - 125px);
+  padding: 20px 0px 15px 0px;
+  text-align: center;
+  font-family: rokkittregular;
+  font-size: 20px;
+  background:#E95B47;
+  border-radius: 5px;
+}
+
+#hot-meter{
+  position:fixed;
   height:30px;
   width:100%;
   z-index:30;
   bottom:0px;
   left:0px;
-  background:linear-gradient(to right,#66ccff, #ff0000);
+  background:linear-gradient(to right,#50C0E1, #E95B47);
 }
 
 #indicator{
-  position: absolute;
+  position: fixed;
   z-index:31;
-  bottom:20px;
-  left:0px;
+  bottom:-5px;
+  left:-20px;
+  height:55px;
+  width:55px;
 }
 
 /* Landscape layout (with min-width) */

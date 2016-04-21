@@ -1,4 +1,3 @@
-@@ -1,319 +0,0 @@
 <!DOCTYPE html>
 <html>
 
@@ -11,7 +10,9 @@
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
 
     <link rel="stylesheet" type="text/css" href="css/reset.css" />
+      <link rel="stylesheet" type="text/css" href="fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+
     <style>
       html, body {
         height: 100%;
@@ -31,13 +32,75 @@
             <p class="event listening">Connecting to Device</p>
             <p class="event received">Device is Ready</p>
         </div>-->
+        <nav>
+          <img id="nav-logo" src="img/logo.svg"></img>
+          <img id="info-icon" src="img/icon.svg"></img>
+        </nav>
+
         <div id="map" ></div>
         <div id="cover"></div>
-        <img id="picture" src = "img/darth-vader.jpg">
+        <div id="picture">
+          <img id = "found-image" src = "img/darth-vader.jpg">
+          <div id = "found-image"></div>
+          <div id = "picture-text">
+            <div id = "tags">
+              #vader #darklordofthesith #sinimonbun
+            </div>
+            <h3>
+              Darth Vader
+            </h3>
+            <div id = "description">
+              Dark lord of the SithWelcome to Moments, where you can e
+              xplore recent Instagram photos in places near you.
+              xplore recent Instagram photos in places near you. xplore recent Instagram photos in places near you.
+              xplore recent Instagram photos in places near you.
+            </div>
+            <div id="gradient">
+
+            </div>
+            <div id="next-memory">
+                Find Another Memory
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div id="modal">
+          <div id="intro">Welcome to Moments, where you can explore recent Instagram photos in places near you.</div>
+          <h2> Getting Started </h2>
+
+
+
+          <div class="step">
+            <img src="img/gps.svg" />
+            <div class="text">
+              Enable GPS on your phone.
+            </div>
+          </div>
+
+
+          <div class="step">
+            <img src="img/bar.svg" />
+            <div class="text">
+            Follow the hot &amp cold bar to locate a memory
+            </div>
+          </div>
+
+          <div class="step">
+            <img src="img/smiley.svg" />
+            <div class="text" >
+            Have fun!
+            </div>
+          </div>
+
+          <div id="go-button">GO!</div>
+        </div>
+
         <div id="hot-meter"></div>
-        <svg id="indicator" height="20" width="20">
-          <polygon points="0,0 20,0 10,20" style="fill:black;"/>
-        </svg>
+        <img src="img/magglass.svg" id="indicator">
+
     </div>
 
 
@@ -46,6 +109,7 @@
       <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/accessKey.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
 
     <script type="text/javascript">
         var locationMarker;
@@ -55,7 +119,21 @@
         var startLocation;
         var target; //Current image that user is searching for
 
+        //Buttons
+        var goButton = document.getElementById('go-button');
+        goButton.addEventListener("click", function(){
+          document.getElementById('modal').style.display = "none";
+        });
 
+        var infoButton = document.getElementById('info-icon');
+        infoButton.addEventListener("click", function(){
+          document.getElementById('modal').style.display = "block";
+        });
+
+        var memoryButton = document.getElementById('next-memory');
+        memoryButton.addEventListener("click", function(){
+          document.getElementById('picture').style.display = "none";
+        });
 
         // Load Google Maps using variable access key
           var script=document.createElement("script");
@@ -65,11 +143,15 @@
           script.defer = true;
           document.head.appendChild(script);
 
+          var stylesArray = [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]}]
+
+
           function initMap() {
              map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: 43.641877, lng: -79.375696},
               zoom: 5,
-              disableDefaultUI: true
+              disableDefaultUI: true,
+              styles: stylesArray
             });
 
 
@@ -88,10 +170,10 @@
                  position: map.getCenter(),
                  icon: {
                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                   fillColor: 'red',
+                   fillColor: '#CB2029',
                    fillOpacity: 1,
-                   strokeColor : '#000',
-                   strokeWeight : 1,
+                   strokeColor : '#CB2029',
+                   strokeWeight : 0,
                    scale: 5,
                    anchor: new google.maps.Point(0,2),
                    zIndex: 1000
@@ -154,7 +236,7 @@
 
                       var width = screen.width-20;
 
-                      indicator.style.left = calcMap(difference,0,180,0,width);
+                      indicator.style.left = (calcMap(difference,0,180,0,width)-20) + "px";
 
                       locationIcon.rotation = 360 - alpha;
                       locationMarker.set('icon', locationIcon);
@@ -211,6 +293,8 @@
 
           // Put image locations
           function placeImages(){
+            //submitCurrentLoc(pos)
+
             var pos1  = {
               lat: 43.462439,
               lng: -79.708754
@@ -310,7 +394,23 @@
             return (x-a1)/(b1-a1) * (b2-a2) + a2;
           }
 
+          function submitCurrentLoc(pos) {
+              var coordinates = pos.lat + "," + pos.lng;
+              console.log(coordinates);
 
+              $.ajax({
+                  url: "http://moments-map.herokuapp.com/moment",
+                  dataType: 'json',
+                  type: 'POST',
+                  data: coordinates,
+                  success: function(data) {
+                    console.log(data);
+                  }.bind(this),
+                  error: function(xhr, status, err) {
+                    console.error("posting to server", status, err.toString());
+                  }.bind(this)
+                });
+          }
 
         // Initialize app
         app.initialize();
