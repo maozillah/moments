@@ -39,14 +39,14 @@ def igLocSearch(clickPos):
             locIDs[locID] = math.sqrt(math.pow(lat-float(currentLat),2) + math.pow(lng-float(currentLong),2))
 
         closestLocID = min(locIDs, key=locIDs.get)
-        print(closestLocID)
+        # print(closestLocID)
 
         getLocPhotos(closestLocID)
     else:
         print('no Instagram locations nearby')
         RESULTS['moment'].append({'error' :'no Instagram locations nearby'})
 
-    print(RESULTS)
+    # print(RESULTS)
     return RESULTS
 
 def getLocPhotos(LocID):
@@ -89,6 +89,7 @@ def getLocPhotos(LocID):
                 'img_url' : photo['images']['standard_resolution']['url'],
                 'caption' : photo['caption']['text'],
                 'tags' : photo['tags'],
+                'username' : photo['user']['username'],
                 'url' : photo['link'],
                 'lat' : photo['location']['latitude'],
                 'long' : photo['location']['longitude']
@@ -98,6 +99,7 @@ def getLocPhotos(LocID):
                 'img_url' : photo['images']['standard_resolution']['url'],
                 'caption' : "no caption",
                 'tags' : photo['tags'],
+                'username' : photo['user']['username'],
                 'url' : photo['link'],
                 'lat' : photo['location']['latitude'],
                 'long' : photo['location']['longitude']
