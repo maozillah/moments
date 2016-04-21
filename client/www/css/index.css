@@ -144,7 +144,10 @@ nav{
   position:absolute;
   top:0;
   overflow-x: hidden;
+  transition: transform 0.5s;
+  transform: rotateY(90deg);
 }
+
 
 #found-image {
   height:60%;
@@ -205,7 +208,11 @@ h3{
   font-size: 20px;
   background:#E95B47;
   border-radius: 5px;
+    transform:translateZ(0);
 }
+
+
+/**********HOT AND COLD **************/
 
 #hot-meter{
   position:fixed;
