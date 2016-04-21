@@ -115,18 +115,18 @@ nav{
 
 #go-button{
   color:#fff;
-  width:120px;
-
-  position:absolute;
-  margin:0 auto;
+  position:fixed;
+  width:250px;
   bottom:30px;
-  left:calc(50% - 60px);
-  padding: 10px 0 5px 0;
+  display:inline-block;
+  left: calc(50% - 125px);
+  padding: 20px 0px 15px 0px;
   text-align: center;
   font-family: rokkittregular;
-  font-size: 42px;
+  font-size: 20px;
   background:#E95B47;
   border-radius: 5px;
+
 }
 
 #intro{
@@ -151,6 +151,7 @@ nav{
 
 #found-image {
   height:60%;
+  padding-top:10px;
   position: absolute;
   top:0px;
   left: -9999px;
