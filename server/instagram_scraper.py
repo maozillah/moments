@@ -20,6 +20,7 @@ def igLocSearch(clickPos):
 
     # keep track of location id for distance calculations
     locIDs = {}
+    farEnoughLoc = {}
 
     # clear data
     RESULTS["moment"] = []
@@ -35,13 +36,22 @@ def igLocSearch(clickPos):
             lng = location['longitude']
             locID = location['id']
 
-            # calculate each locID's distance to clickPos and add to store it
+            # calculate each locID's distance to clickPos and add to store it python dictionary
             locIDs[locID] = math.sqrt(math.pow(lat-float(currentLat),2) + math.pow(lng-float(currentLong),2))
+        
+        for key, value in locIDs.items():
+            # make sure location is outside of user's current location
+            if value > 0.0005:
+                # print (key, value)
+                farEnoughLoc[key] = value
 
-        closestLocID = min(locIDs, key=locIDs.get)
-        # print(closestLocID)
-
-        getLocPhotos(closestLocID)
+        # check if farenough is empty = no locations far enough
+        if not farEnoughLoc:
+            print('no Instagram locations nearby')
+            RESULTS['moment'].append({'error' :'no Instagram locations far enough'})
+        else:
+            closestLocID = min(farEnoughLoc, key=farEnoughLoc.get)
+            getLocPhotos(closestLocID)
     else:
         print('no Instagram locations nearby')
         RESULTS['moment'].append({'error' :'no Instagram locations nearby'})
