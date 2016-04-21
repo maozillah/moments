@@ -39,69 +39,73 @@
 
         <div id="map" ></div>
         <div id="cover"></div>
-        <div id="picture">
-          <img id = "found-image" src = "img/darth-vader.jpg">
-          <div id = "found-image"></div>
-          <div id = "picture-text">
-            <div id = "tags">
-              #vader #darklordofthesith #sinimonbun
-            </div>
-            <h3>
-              Darth Vader
-            </h3>
-            <div id = "description">
-              Dark lord of the SithWelcome to Moments, where you can e
-              xplore recent Instagram photos in places near you.
-              xplore recent Instagram photos in places near you. xplore recent Instagram photos in places near you.
-              xplore recent Instagram photos in places near you.
-            </div>
-            <div id="gradient">
-
-            </div>
-            <div id="next-memory">
-                Find Another Memory
-            </div>
-          </div>
-        </div>
 
 
+          <div id="flipper">
+            <div id="picture">
+              <img id = "found-image" src = "img/darth-vader.jpg">
+              <div id = "found-image"></div>
+              <div id = "picture-text">
+                <div id = "tags">
+                  #vader #darklordofthesith #sinimonbun
+                </div>
+                <h3>
+                  Darth Vader
+                </h3>
+                <div id = "description">
+                  Dark lord of the SithWelcome to Moments, where you can e
+                  xplore recent Instagram photos in places near you.
+                  xplore recent Instagram photos in places near you. xplore recent Instagram photos in places near you.
+                  xplore recent Instagram photos in places near you.
+                </div>
+                <div id="gradient">
 
-
-        <div id="modal">
-          <div id="intro">Welcome to Moments, where you can explore recent Instagram photos in places near you.</div>
-          <h2> Getting Started </h2>
-
-
-
-          <div class="step">
-            <img src="img/gps.svg" />
-            <div class="text">
-              Enable GPS on your phone.
+                </div>
+                <div id="next-memory">
+                    Find Another Memory
+                </div>
+              </div>
             </div>
           </div>
 
 
-          <div class="step">
-            <img src="img/bar.svg" />
-            <div class="text">
-            Follow the hot &amp cold bar to locate a memory
-            </div>
-          </div>
 
-          <div class="step">
-            <img src="img/smiley.svg" />
-            <div class="text" >
-            Have fun!
-            </div>
-          </div>
 
-          <div id="go-button">GO!</div>
+          <div id="modal">
+            <div id="intro">Welcome to Moments, where you can explore recent Instagram photos in places near you.</div>
+            <h2> Getting Started </h2>
+
+
+
+            <div class="step">
+              <img src="img/gps.svg" />
+              <div class="text">
+                Enable GPS on your phone.
+              </div>
+            </div>
+
+
+            <div class="step">
+              <img src="img/bar.svg" />
+              <div class="text">
+              Follow the hot &amp cold bar to locate a memory
+              </div>
+            </div>
+
+            <div class="step">
+              <img src="img/smiley.svg" />
+              <div class="text" >
+              Have fun!
+              </div>
+            </div>
+
+            <div id="go-button">GO!</div>
+          </div>
         </div>
 
         <div id="hot-meter"></div>
         <img src="img/magglass.svg" id="indicator">
 
-    </div>
 
 
     </script>
@@ -132,7 +136,8 @@
 
         var memoryButton = document.getElementById('next-memory');
         memoryButton.addEventListener("click", function(){
-          document.getElementById('picture').style.display = "none";
+        //  document.getElementById('picture').style.display = "none";
+          document.getElementById('picture').style.transform=  "rotateY(90deg)";
         });
 
         // Load Google Maps using variable access key
@@ -293,7 +298,7 @@
 
           // Put image locations
           function placeImages(){
-            //submitCurrentLoc(pos)
+
 
             var pos1  = {
               lat: 43.462439,
@@ -341,11 +346,12 @@
 
             // Set the target to the closest picture
             target = closestPoint(tempArray);
+            submitCurrentLoc(pos);
           }
 
           function revealImage(){
             var image = document.getElementById('picture');
-            image.style.display = "block";
+            image.style.transform = "rotateY(0deg)";
           }
 
           // Find the closest picture to the user
@@ -389,7 +395,7 @@
             return angle;
           }
 
-          //Map one range of numbers onto another
+          // Map one range of numbers onto another
           function calcMap(x,a1,b1,a2,b2){
             return (x-a1)/(b1-a1) * (b2-a2) + a2;
           }
@@ -399,11 +405,32 @@
               console.log(coordinates);
 
               $.ajax({
-                  url: "http://moments-map.herokuapp.com/moment",
+                  url: "https://moments-map.herokuapp.com/moment",
                   dataType: 'json',
                   type: 'POST',
                   data: coordinates,
                   success: function(data) {
+                  //  target.lat = data["moment"][0]["lat"];
+                  //  target.lng = data["moment"][0]["long"];
+                    target.img = data["moment"][0]["img_url"];
+                    target.caption = data["moment"][0]["caption"];
+                    target.tags = data["moment"][0]["tags"];
+                    target.tags = data["moment"][0]["tags"];
+
+                    document.getElementById('found-image').src = target.img;
+
+                    var tags = "";
+
+                    for (var i = 0; i < target.tags.length; i ++){
+                      tags += " #" + target.tags[i];
+                    }
+                    document.getElementById('tags').innerHTML = tags;
+
+                    var caption = document.getElementById('description').innerHTML;
+                    if (caption != "no caption") document.getElementById('description').innerHTML = target.caption;
+                    else document.getElementById('description').innerHTML = "";
+
+                    //revealImage();
                     console.log(data);
                   }.bind(this),
                   error: function(xhr, status, err) {
