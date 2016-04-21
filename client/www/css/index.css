@@ -21,7 +21,7 @@ body {
 
 nav{
   z-index:1000;
-  position:absolute;
+  position:fixed;
   top:0px;
   left:0px;
   background:#E95B47;
@@ -129,18 +129,84 @@ nav{
   border-radius: 5px;
 }
 
-#description{
+#intro{
   margin:10px 40px;
   padding:10px 0 10px 0;
 }
 
 #picture {
-  position:absolute;
-  top:10%;
+  height:calc(100% - 50px);
   width:100%;
-  z-index: 20;
-  display:none;
+  margin-top:50px;
+  z-index: 34;
+  display:block;
+  background-color: #fff;
+  position:absolute;
+  top:0;
+  overflow-x: hidden;
 }
+
+#found-image {
+  height:60%;
+  position: absolute;
+  top:0px;
+  left: -9999px;
+  right: -9999px;
+  margin: auto;/*
+  background:url("../img/darth-vader.jpg");
+  background-size:cover;*/
+}
+
+#picture-text{
+  height:40%;
+  padding:10px 20px 0 20px;
+  position: absolute;
+  top:60%;
+}
+
+#tags{
+  color:#666;
+  font-family:"latolightitalic";
+  margin:5px 0 10px 0;
+  font-size:14px;
+}
+
+h3{
+  font-family:"latoregular";
+  padding-bottom: 10px;
+}
+
+#description{
+  font-family:"latolight";
+  padding-bottom:100px;
+}
+
+#gradient{
+  position:fixed;
+  width:100%;
+  height:125px;
+  bottom:0px;
+  background:linear-gradient(rgba(255,255,255,0),
+  rgba(255,255,255,1),
+  rgba(255,255,255,1),
+  rgba(255,255,255,1));
+}
+
+#next-memory{
+  color:#fff;
+  position:fixed;
+  width:250px;
+  bottom:15px;
+  display:inline-block;
+  left: calc(50% - 125px);
+  padding: 20px 0px 15px 0px;
+  text-align: center;
+  font-family: rokkittregular;
+  font-size: 20px;
+  background:#E95B47;
+  border-radius: 5px;
+}
+
 #hot-meter{
   position:absolute;
   height:30px;

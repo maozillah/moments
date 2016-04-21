@@ -39,12 +39,36 @@
 
         <div id="map" ></div>
         <div id="cover"></div>
-        <img id="picture" src = "img/darth-vader.jpg">
+        <div id="picture">
+          <img id = "found-image" src = "img/darth-vader.jpg">
+          <div id = "found-image"></div>
+          <div id = "picture-text">
+            <div id = "tags">
+              #vader #darklordofthesith #sinimonbun
+            </div>
+            <h3>
+              Darth Vader
+            </h3>
+            <div id = "description">
+              Dark lord of the SithWelcome to Moments, where you can e
+              xplore recent Instagram photos in places near you.
+              xplore recent Instagram photos in places near you. xplore recent Instagram photos in places near you.
+              xplore recent Instagram photos in places near you.
+            </div>
+            <div id="gradient">
+
+            </div>
+            <div id="next-memory">
+                Find Another Memory
+            </div>
+          </div>
+        </div>
+
 
 
 
         <div id="modal">
-          <div id="description">Welcome to Moments, where you can explore recent Instagram photos in places near you.</div>
+          <div id="intro">Welcome to Moments, where you can explore recent Instagram photos in places near you.</div>
           <h2> Getting Started </h2>
 
 
@@ -106,6 +130,11 @@
           document.getElementById('modal').style.display = "block";
         });
 
+        var memoryButton = document.getElementById('next-memory');
+        memoryButton.addEventListener("click", function(){
+          document.getElementById('picture').style.display = "none";
+        });
+
         // Load Google Maps using variable access key
           var script=document.createElement("script");
           script.type="text/javascript";
@@ -137,10 +166,10 @@
                  position: map.getCenter(),
                  icon: {
                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                   fillColor: 'red',
+                   fillColor: '#CB2029',
                    fillOpacity: 1,
-                   strokeColor : '#000',
-                   strokeWeight : 1,
+                   strokeColor : '#CB2029',
+                   strokeWeight : 0,
                    scale: 5,
                    anchor: new google.maps.Point(0,2),
                    zIndex: 1000
