@@ -155,6 +155,10 @@
               disableDefaultUI: true,
               styles: stylesArray
             });
+
+            google.maps.event.addListenerOnce(map, 'idle', function(){
+              google.maps.event.trigger(map, 'resize');
+            });
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function(position) {
@@ -185,6 +189,7 @@
                }
                enableOrientationArrow();
                placeImages();
+               updateLocation();
               }, function() {
               //  infoWindow = new google.maps.InfoWindow({map: map});
               //  handleLocationError(true, infoWindow, map.getCenter());
@@ -230,25 +235,31 @@
               }
           }
           // Check location every half a second
-          window.setInterval(function(){
+          /*window.setInterval(function(){
             if (locationMarker != null) updateLocation();
-          }, 100);
+          }, 100);*/
           // Update the location marker
+
+
           function updateLocation(){
             // Check if geolocation is available
             if (navigator.geolocation) {
               // Get current location
-              navigator.geolocation.getCurrentPosition(function(position) {
+              navigator.geolocation.watchPosition(function(position) {
+
                 newPos = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
+
+                console.log(newPos.lat);
                 // Check that the new position is relatively close to the old one
                 // Sometimes maps will lose connection and "jump" somewhere else
-                if (calcDistance(newPos,pos) < 0.0004 && pos.lat > 38){
+                if (calcDistance(newPos,pos) < 0.00004 && pos.lat > 38){
                   // Position the marker
                   pos = newPos;
                   locationMarker.setPosition(pos);
+
                   map.setCenter(pos);
                   // Reveal image if player is within range of current target
                   console.log(calcDistance(pos,target));
@@ -260,7 +271,7 @@
               }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
                 locationMarker.setPosition(pos);
-              },{maximumAge:100, timeout:5000,enableHighAccuracy: true});
+              },{frequency: 1000, enableHighAccuracy: true});
             } else {
               // Browser doesn't support Geolocation
               handleLocationError(false, infoWindow, map.getCenter());
@@ -357,8 +368,8 @@
                   type: 'POST',
                   data: coordinates,
                   success: function(data) {
-                  //  target.lat = data["moment"][0]["lat"];
-                  //  target.lng = data["moment"][0]["long"];
+                    target.lat = data["moment"][0]["lat"];
+                    target.lng = data["moment"][0]["long"];
                     target.img = data["moment"][0]["img_url"];
                     target.caption = data["moment"][0]["caption"];
                     target.tags = data["moment"][0]["tags"];
