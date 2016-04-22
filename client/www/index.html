@@ -39,9 +39,9 @@
         </nav>
 
         <div id="map" ></div>
+        <!---
         <div id="cover"></div>
-
-
+      -->
           <div id="flipper">
             <div id="picture">
               <img id = "found-image" src = "">
@@ -120,6 +120,7 @@
         var pos;
         var startLocation;
         var target; //Current image that user is searching for
+        var targetMarker;
         //Buttons
         var goButton = document.getElementById('go-button');
         goButton.addEventListener("click", function(){
@@ -284,8 +285,8 @@
               lat: 43.462439,
               lng: -79.708754
             };
-            /*
-            pictureMarker= new google.maps.Marker({
+
+          targetMarker= new google.maps.Marker({
              position: pos1,
              icon: {
                path: google.maps.SymbolPath.CIRCLE,
@@ -300,6 +301,7 @@
              draggable: false,
              map: map
             });
+            /*
            pictureMarker2= new google.maps.Marker({
             position: pos2,
             icon: {
@@ -318,6 +320,7 @@
           //  var tempArray = [pos1,pos2];
             // Set the target to the closest picture
             target = pos1;
+            targetMarker.pos = pos1;
             submitCurrentLoc(pos);
           }
           function revealImage(){
@@ -370,6 +373,7 @@
                   success: function(data) {
                     target.lat = data["moment"][0]["lat"];
                     target.lng = data["moment"][0]["long"];
+                    targetMarker.setPosition( new google.maps.LatLng( target.lat, target.lng  ) );
                     target.img = data["moment"][0]["img_url"];
                     target.caption = data["moment"][0]["caption"];
                     target.tags = data["moment"][0]["tags"];
