@@ -41,7 +41,7 @@ def igLocSearch(clickPos):
         
         for key, value in locIDs.items():
             # make sure location is outside of user's current location
-            if value > 0.0005:
+            if value > 0.00005:
                 # print (key, value)
                 farEnoughLoc[key] = value
 
