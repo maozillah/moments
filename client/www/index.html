@@ -6,7 +6,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    
+
     <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
 
@@ -120,32 +120,26 @@
         var pos;
         var startLocation;
         var target; //Current image that user is searching for
-
         //Buttons
         var goButton = document.getElementById('go-button');
         goButton.addEventListener("click", function(){
           document.getElementById('modal').style.display = "none";
         });
-
         var infoButton = document.getElementById('info-icon');
         infoButton.addEventListener("click", function(){
           document.getElementById('modal').style.display = "block";
         });
-
         var memoryButton = document.getElementById('next-memory');
         memoryButton.addEventListener("click", function(){
         //  document.getElementById('picture').style.display = "none";
           document.getElementById('picture').style.transform=  "rotateY(90deg)";
         });
-
         // Remove transform when CSS transition finishes so fixed elements will work properly
         var pictureModal = document.getElementById('picture');
         pictureModal.addEventListener("transitionend", function(){
           console.log( pictureModal.style.transform);
           if (pictureModal.style.transform !="rotateY(90deg)") pictureModal.style.transform = "none";
         }, false);
-
-
         // Load Google Maps using variable access key
           var script=document.createElement("script");
           script.type="text/javascript";
@@ -153,10 +147,7 @@
           script.async = true;
           script.defer = true;
           document.head.appendChild(script);
-
           var stylesArray = [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]}]
-
-
           function initMap() {
              map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: 43.641877, lng: -79.375696},
@@ -164,8 +155,6 @@
               disableDefaultUI: true,
               styles: stylesArray
             });
-
-
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function(position) {
@@ -173,10 +162,8 @@
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
-
                 map.setCenter(pos);
                 map.setZoom(17);
-
                 locationMarker= new google.maps.Marker({
                  position: map.getCenter(),
                  icon: {
@@ -196,10 +183,8 @@
                  lat:map.getCenter().lat(),
                  lng:map.getCenter().lng(),
                }
-
                enableOrientationArrow();
                placeImages();
-
               }, function() {
               //  infoWindow = new google.maps.InfoWindow({map: map});
               //  handleLocationError(true, infoWindow, map.getCenter());
@@ -210,7 +195,6 @@
           //    handleLocationError(false, infoWindow, map.getCenter());
             }
           }
-
           function handleLocationError(browserHasGeolocation, infoWindow, pos) {
             /*infoWindow = new google.maps.InfoWindow({map: map});
             infoWindow.setPosition(pos);
@@ -218,14 +202,9 @@
                                   'Error: The Geolocation service failed.' :
                                   'Error: Your browser doesn\'t support geolocation.');*/
           }
-
-
-
           // Draw orientation arrow at current position
           function enableOrientationArrow() {
-
               if (window.DeviceOrientationEvent) {
-
                   window.addEventListener('deviceorientation', function(event) {
                       var alpha = null;
                       // Check if iOS
@@ -236,82 +215,64 @@
                       else {
                           alpha = event.alpha;
                       }
-
                       var locationIcon = locationMarker['icon'];
                       var indicator = document.getElementById("indicator");
-
                       //measure difference in rotation;
                       var targetAngle = calcAngle(pos,target);
                       var difference = Math.abs(targetAngle - alpha);
                       if (difference > 180) difference = 180 - (difference - 180);
-
                       //var width = screen.width-20;
                       var width = window.innerWidth-20;
-
                       indicator.style.left = (calcMap(difference,0,180,0,width)-20) + "px";
-
                       locationIcon.rotation = 360 - alpha;
                       locationMarker.set('icon', locationIcon);
                   }, false);
               }
           }
-
           // Check location every half a second
           window.setInterval(function(){
             if (locationMarker != null) updateLocation();
           }, 100);
-
           // Update the location marker
           function updateLocation(){
             // Check if geolocation is available
             if (navigator.geolocation) {
               // Get current location
               navigator.geolocation.getCurrentPosition(function(position) {
-
                 newPos = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
-
                 // Check that the new position is relatively close to the old one
                 // Sometimes maps will lose connection and "jump" somewhere else
-                if (calcDistance(newPos,pos) < 0.0004 || pos.lat < 38){
+                if (calcDistance(newPos,pos) < 0.0004 && pos.lat > 38){
                   // Position the marker
                   pos = newPos;
                   locationMarker.setPosition(pos);
                   map.setCenter(pos);
-
-
                   // Reveal image if player is within range of current target
-                  if(calcDistance(pos,target) < 0.00045){
+                  console.log(calcDistance(pos,target));
+                  if(calcDistance(pos,target) < 0.000045){
                     revealImage();
                   }
-
                 }
                 //console.log(pos.lat + " " + pos.lng);
-
               }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
                 locationMarker.setPosition(pos);
-              },{maximumAge:600000, timeout:5000,enableHighAccuracy: true});
+              },{maximumAge:100, timeout:5000,enableHighAccuracy: true});
             } else {
               // Browser doesn't support Geolocation
               handleLocationError(false, infoWindow, map.getCenter());
               locationMarker.setPosition(pos);
             }
           }
-
-
-
           // Put image locations
           function placeImages(){
-
-
             var pos1  = {
               lat: 43.462439,
               lng: -79.708754
             };
-
             /*
             pictureMarker= new google.maps.Marker({
              position: pos1,
@@ -328,8 +289,6 @@
              draggable: false,
              map: map
             });
-
-
            pictureMarker2= new google.maps.Marker({
             position: pos2,
             icon: {
@@ -346,67 +305,52 @@
             });
             */
           //  var tempArray = [pos1,pos2];
-
             // Set the target to the closest picture
             target = pos1;
             submitCurrentLoc(pos);
           }
-
           function revealImage(){
             var image = document.getElementById('picture');
             image.style.transform = "rotateY(0deg)";
           }
-
           // Find the closest picture to the user
           function closestPoint(positions){
             var shortestDistance =1000000;
             var closestPos;
-
             for (var i = 0; i < positions.length; i ++){
               distance = calcDistance(startLocation,positions[i]);
-
               if (distance < shortestDistance) {
                 shortestDistance = distance;
                 closestPos = positions[i];
               }
             }
-
             return closestPos;
           }
-
           // Takes an object with coordinates for each param and calculates distance between
           function calcDistance(start, end){
-
             var x1 = start.lat;
             var x2 = end.lat;
             var y1 = start.lng;
             var y2 = end.lng;
-
             var distance = Math.sqrt(Math.pow(x2 -x1,2) + Math.pow(y2 - y1,2));
             return distance;
           }
-
           // Calculate an angle from two points
           function calcAngle(start, end){
-
             var x1 = start.lat;
             var x2 = end.lat;
             var y1 = start.lng;
             var y2 = end.lng;
-
             var angle = Math.atan2(y2 - y1, x2- x1) * 180 / Math.PI;
             return angle;
           }
-
           // Map one range of numbers onto another
           function calcMap(x,a1,b1,a2,b2){
             return (x-a1)/(b1-a1) * (b2-a2) + a2;
           }
-
           function submitCurrentLoc(pos) {
               var coordinates = pos.lat + "," + pos.lng;
               console.log(coordinates);
-
               $.ajax({
                   url: "https://moments-map.herokuapp.com/moment",
                   dataType: 'json',
@@ -419,22 +363,16 @@
                     target.caption = data["moment"][0]["caption"];
                     target.tags = data["moment"][0]["tags"];
                     target.username = data["moment"][0]["username"];
-
                     document.getElementById('found-image').src = target.img;
-
                     var tags = "";
-
                     for (var i = 0; i < target.tags.length; i ++){
                       tags += " #" + target.tags[i];
                     }
                     document.getElementById('tags').innerHTML = tags;
-
                     var caption = target.caption;
                     if (caption != "no caption") document.getElementById('description').innerHTML = target.caption;
                     else document.getElementById('description').innerHTML = "";
-
                     document.getElementById('user').innerHTML=target.username;
-
                     console.log(data);
                   }.bind(this),
                   error: function(xhr, status, err) {
@@ -442,7 +380,6 @@
                   }.bind(this)
                 });
           }
-
         // Initialize app
         app.initialize();
     </script>
